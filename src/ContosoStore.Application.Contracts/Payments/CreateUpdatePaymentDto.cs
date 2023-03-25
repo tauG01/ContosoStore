@@ -5,6 +5,7 @@ namespace ContosoStore.Payments;
 
 public class CreateUpdatePaymentDto
 {
+    public Guid CustomerId { get; set; }
     [Required]
     [StringLength(128)]
     public string Reference { get; set; }

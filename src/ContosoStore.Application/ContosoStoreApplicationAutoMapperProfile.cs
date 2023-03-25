@@ -15,5 +15,7 @@ public class ContosoStoreApplicationAutoMapperProfile : Profile
         CreateMap<Payment, PaymentDto>();
         CreateMap<CreateUpdatePaymentDto, Payment>();
         CreateMap<Customer, CustomerDto>();
+        CreateMap<Customer, CustomerLookupDto>();
+
     }
 }

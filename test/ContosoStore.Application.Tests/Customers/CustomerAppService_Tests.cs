@@ -5,7 +5,6 @@ using Xunit;
 
 namespace ContosoStore.Customers;
 
-
 public class CustomerAppService_Tests : ContosoStoreApplicationTestBase
 {
     private readonly ICustomerAppService _customerAppService;

@@ -82,6 +82,9 @@ public class ContosoStoreDbContext : AbpDbContext<ContosoStoreDbContext>, IIdent
             b.ToTable(ContosoStoreConsts.DbTablePrefix + "Payments", ContosoStoreConsts.DbSchema);
             b.ConfigureByConvention(); //auto configure for the base class props
             b.Property(x => x.Reference).IsRequired().HasMaxLength(128);
+
+            // ADD THE MAPPING FOR THE RELATION
+            b.HasOne<Customer>().WithMany().HasForeignKey(x => x.CustomerId).IsRequired();
         });
 
         builder.Entity<Customer>(b =>

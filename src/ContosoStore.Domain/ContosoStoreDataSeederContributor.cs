@@ -24,51 +24,49 @@ public class ContosoStoreDataSeederContributor : IDataSeedContributor, ITransien
 
     public async Task SeedAsync(DataSeedContext context)
     {
-        // SEED DATA FOR PAYMENTS
-        if (await _paymentRepository.GetCountAsync() <= 0)
+        if (await _paymentRepository.GetCountAsync() > 0)
         {
-            await _paymentRepository.InsertAsync(
-                new Payment
-                {
-                    Reference = "20032023800",
-                    PaymentDate = new DateTime(2023, 3, 8),
-                    Naration = "Paying for burger"
-                },
-                autoSave: true
-            );
-
-            await _paymentRepository.InsertAsync(
-                new Payment
-                {
-                    Reference = "20032023801",
-                    PaymentDate = new DateTime(2023, 3, 9),
-                    Naration = "KFC Bucket for 1"
-                },
-                autoSave: true
-            );
+            return;
         }
-
         // SEED DATA FOR CUSTOMERS
 
-        if (await _customerRepository.GetCountAsync() <= 0)
-        {
-            await _customerRepository.InsertAsync(
-                await _customerManager.CreateAsync(
-                    "Taurai Gombera",
-                    "tauraigombera@gmail.com"
-                    
-                )
-            );
+        var customer1 = await _customerRepository.InsertAsync(
+           await _customerManager.CreateAsync(
+               "Taurai Gombera",
+                "tauraigombera@gmail.com"
+           )
+       );
 
-            await _customerRepository.InsertAsync(
-                await _customerManager.CreateAsync(
-                     "Tiyamike Gombera",
-                     "tiyamikegombera@gmail.com"
-                    
+        var customer2 = await _customerRepository.InsertAsync(
+           await _customerManager.CreateAsync(
+               "Tiyamike Gombera",
+                "tiyamikegombera@gmail.com"
+           )
+       );
 
-                )
-            );
-        }
+        // SEED DATA FOR PAYMENTS
+
+        await _paymentRepository.InsertAsync(
+           new Payment
+           {
+               CustomerId = customer1.Id, // SET THE CUSTOMER
+               Reference = "20032023800",
+               PaymentDate = new DateTime(2023, 3, 8),
+               Naration = "Paying for burger"
+           },
+           autoSave: true
+       );
+
+        await _paymentRepository.InsertAsync(
+          new Payment
+          {
+              CustomerId = customer2.Id, // SET THE CUSTOMER
+              Reference = "20032023801",
+              PaymentDate = new DateTime(2023, 3, 9),
+              Naration = "KFC Bucket for 1"
+          },
+          autoSave: true
+      );
     }
 }
 

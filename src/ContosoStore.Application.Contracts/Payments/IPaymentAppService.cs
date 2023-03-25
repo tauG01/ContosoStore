@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
@@ -10,5 +11,7 @@ public interface IPaymentAppService :
         PagedAndSortedResultRequestDto, //Used for paging/sorting
         CreateUpdatePaymentDto> //Used to create/update a payment
 {
+    // ADD the NEW METHOD
+    Task<ListResultDto<CustomerLookupDto>> GetCustomerLookupAsync();
 
 }

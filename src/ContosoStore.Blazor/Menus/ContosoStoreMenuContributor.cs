@@ -77,6 +77,20 @@ public class ContosoStoreMenuContributor : IMenuContributor
             )
         );
 
+        context.Menu.AddItem(
+          new ApplicationMenuItem(
+              "ContososStore.Customers",
+              l["Menu:Customers"],
+              url: "/authors",
+              icon: "fa fa-money"
+         )
+      );
+
+
+
+        
+
+
         return Task.CompletedTask;
     }
 

@@ -5,6 +5,7 @@ namespace ContosoStore.Payments;
 
 public class Payment : AuditedAggregateRoot<Guid>
 {
+    public Guid CustomerId { get; set; }
     public string Reference { get; set; }
 
     public DateTime PaymentDate { get; set; }

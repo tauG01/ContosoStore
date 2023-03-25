@@ -46,8 +46,7 @@ public class CustomerAppService : ContosoStoreAppService, ICustomerAppService
 
         var totalCount = input.Filter == null
             ? await _customerRepository.CountAsync()
-            : await _customerRepository.CountAsync(
-                customer => customer.Name.Contains(input.Filter));
+            : await _customerRepository.CountAsync(customer => customer.Name.Contains(input.Filter));
 
         return new PagedResultDto<CustomerDto>(
             totalCount,
