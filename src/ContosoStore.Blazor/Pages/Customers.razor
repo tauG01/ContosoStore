@@ -168,13 +168,25 @@
                     <Validation>
                         <Blazorise.Field>
                             <FieldLabel>@L["Email"]</FieldLabel>
-                            <MemoEdit @bind-Text="@EditingCustomer.Email">
+                            <TextEdit @bind-Text="@EditingCustomer.Email">
                                 <Feedback>
                                     <ValidationError/>
                                 </Feedback>
-                            </MemoEdit>
+                            </TextEdit>
                         </Blazorise.Field>
                     </Validation>
+
+                    <Blazorise.Field>
+                        <FieldLabel>@L["Merchant"]</FieldLabel>
+                        <Select TValue="Guid" @bind-SelectedValue="@EditingCustomer.MerchantId">
+                            @foreach (var merchant in merchantList)
+                            {
+                                <SelectItem TValue="Guid" Value="@merchant.Id">
+                                    @merchant.BusinessName
+                                </SelectItem>
+                            }
+                        </Select>
+                    </Blazorise.Field>
                 </Validations>
             </ModalBody>
             <ModalFooter>
