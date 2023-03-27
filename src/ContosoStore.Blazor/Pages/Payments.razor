@@ -3,6 +3,7 @@
 @using ContosoStore.Payments
 @using ContosoStore.Localization
 @using Microsoft.Extensions.Localization
+@using Volo.Abp
 @using Volo.Abp.AspNetCore.Components.Web;
 @inject IStringLocalizer<ContosoStoreResource> L
 @inject AbpBlazorMessageLocalizerHelper<ContosoStoreResource> LH
@@ -37,11 +38,8 @@
                 </DataGridColumn>
                 
                 <DataGridColumn TItem="PaymentDto"
-                                Field="@nameof(PaymentDto.PaymentDate)"
-                                Caption="@L["PaymentDate"]">
-                    <DisplayTemplate>
-                        @context.PaymentDate.ToShortDateString()
-                    </DisplayTemplate>
+                                Field="@nameof(PaymentDto.CustomerName)"
+                                Caption="@L["Customer"]">
                 </DataGridColumn>
 
                 <DataGridColumn TItem="PaymentDto"
@@ -88,24 +86,36 @@
             </ModalHeader>
             <ModalBody>
                 <Validations @ref="@CreateValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+                    <Blazorise.Field>
+                        <FieldLabel>@L["Customer"]</FieldLabel>
+                        <Select TValue="Guid" @bind-SelectedValue="@NewEntity.CustomerId">
+                            @foreach (var customer in customerList)
+                            {
+                                <SelectItem TValue="Guid" Value="@customer.Id">
+                                    @customer.Name
+                                </SelectItem>
+                            }
+                        </Select>
+                    </Blazorise.Field>
+
                     <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
+                        <Blazorise.Field>
                             <FieldLabel>@L["Reference"]</FieldLabel>
                             <TextEdit @bind-Text="@NewEntity.Reference">
                                 <Feedback>
                                     <ValidationError/>
                                 </Feedback>
                             </TextEdit>
-                        </Field>
+                        </Blazorise.Field>
                     </Validation>
-                    <Field>
+                    <Blazorise.Field>
                         <FieldLabel>@L["PaymentDate"]</FieldLabel>
                         <DateEdit TValue="DateTime" @bind-Date="NewEntity.PaymentDate"/>
-                    </Field>
-                    <Field>
+                    </Blazorise.Field>
+                    <Blazorise.Field>
                         <FieldLabel>@L["Naration"]</FieldLabel>
                         <TextEdit @bind-Text="@NewEntity.Naration"/>
-                    </Field>
+                    </Blazorise.Field>
                 </Validations>
             </ModalBody>
             <ModalFooter>
@@ -131,29 +141,41 @@
             </ModalHeader>
             <ModalBody>
                 <Validations @ref="@EditValidationsRef" Model="@NewEntity" ValidateOnLoad="false">
+                    <Blazorise.Field>
+                        <FieldLabel>@L["Customer"]</FieldLabel>
+                        <Select TValue="Guid" @bind-SelectedValue="@EditingEntity.CustomerId">
+                            @foreach (var customer in customerList)
+                            {
+                                <SelectItem TValue="Guid" Value="@customer.Id">
+                                    @customer.Name
+                                </SelectItem>
+                            }
+                        </Select>
+                    </Blazorise.Field>
+
                     <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
+                        <Blazorise.Field>
                             <FieldLabel>@L["Reference"]</FieldLabel>
                             <TextEdit @bind-Text="@EditingEntity.Reference">
                                 <Feedback>
                                     <ValidationError/>
                                 </Feedback>
                             </TextEdit>
-                        </Field>
+                        </Blazorise.Field>
                     </Validation>
-                    <Field>
+                    <Blazorise.Field>
                         <FieldLabel>@L["PaymentDate"]</FieldLabel>
                         <DateEdit TValue="DateTime" @bind-Date="EditingEntity.PaymentDate"/>
-                    </Field>
+                    </Blazorise.Field>
                     <Validation MessageLocalizer="@LH.Localize">
-                        <Field>
+                        <Blazorise.Field>
                             <FieldLabel>@L["Naration"]</FieldLabel>
                             <TextEdit @bind-Text="@EditingEntity.Naration">
                                 <Feedback>
                                     <ValidationError />
                                 </Feedback>
                             </TextEdit>
-                        </Field>
+                        </Blazorise.Field>
                     </Validation>
                 </Validations>
             </ModalBody>
@@ -169,4 +191,31 @@
     </ModalContent>
 </Modal>
 
+@code
+{
+    //ADDED A NEW FIELD
+    IReadOnlyList<CustomerLookupDto> customerList = Array.Empty<CustomerLookupDto>();
 
+    public Payments() // Constructor
+    {
+       
+    }
+
+    //GET CUSTOMERS ON INITIALIZATION
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        customerList = (await AppService.GetCustomerLookupAsync()).Items;
+    }
+
+    protected override async Task OpenCreateModalAsync()
+    {
+        if (!customerList.Any())
+        {
+            throw new UserFriendlyException(message: L["ACustomerIsRequiredForCreatingPayment"]);
+        }
+
+        await base.OpenCreateModalAsync();
+        NewEntity.CustomerId = customerList.First().Id;
+    }
+}

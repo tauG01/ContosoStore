@@ -6,6 +6,7 @@ using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 using ContosoStore.Payments;
 using ContosoStore.Customers;
+using ContosoStore.Merchants;
 
 namespace ContosoStore;
 public class ContosoStoreDataSeederContributor : IDataSeedContributor, ITransientDependency
@@ -13,13 +14,18 @@ public class ContosoStoreDataSeederContributor : IDataSeedContributor, ITransien
     private readonly IRepository<Payment, Guid> _paymentRepository;
     private readonly ICustomerRepository _customerRepository;
     private readonly CustomerManager _customerManager;
+    private readonly IMerchantRepository _merchantRepository;
+    private readonly MerchantManager _merchantManager;
 
-    public ContosoStoreDataSeederContributor(IRepository<Payment, Guid> paymentRepository, 
-        ICustomerRepository customerRepository, CustomerManager customerManager)
+    public ContosoStoreDataSeederContributor(IRepository<Payment, Guid> paymentRepository,
+        ICustomerRepository customerRepository, CustomerManager customerManager,
+        IMerchantRepository merchantRepository, MerchantManager merchantManager)
     {
         _paymentRepository = paymentRepository;
         _customerRepository = customerRepository;
         _customerManager = customerManager;
+        _merchantRepository = merchantRepository;
+        _merchantManager = merchantManager;
     }
 
     public async Task SeedAsync(DataSeedContext context)
@@ -28,10 +34,28 @@ public class ContosoStoreDataSeederContributor : IDataSeedContributor, ITransien
         {
             return;
         }
-        // SEED DATA FOR CUSTOMERS
 
+        // SEED DATA FOR MERCHANTS
+        var merchant1 = await _merchantRepository.InsertAsync(
+           await _merchantManager.CreateAsync(
+               "KFC",
+               "+265888701110",
+                "service@kfc.com"
+           )
+       );
+
+        var merchant2 = await _merchantRepository.InsertAsync(
+           await _merchantManager.CreateAsync(
+               "Kips",
+               "+265999970111",
+                "service@kipps.com"
+           )
+       );
+
+        // SEED DATA FOR CUSTOMERS
         var customer1 = await _customerRepository.InsertAsync(
            await _customerManager.CreateAsync(
+               merchant1.Id,
                "Taurai Gombera",
                 "tauraigombera@gmail.com"
            )
@@ -39,13 +63,13 @@ public class ContosoStoreDataSeederContributor : IDataSeedContributor, ITransien
 
         var customer2 = await _customerRepository.InsertAsync(
            await _customerManager.CreateAsync(
+               merchant2.Id,
                "Tiyamike Gombera",
                 "tiyamikegombera@gmail.com"
            )
        );
 
         // SEED DATA FOR PAYMENTS
-
         await _paymentRepository.InsertAsync(
            new Payment
            {

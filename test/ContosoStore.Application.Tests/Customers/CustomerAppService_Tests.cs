@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
+using ContosoStore.Merchants;
 using Shouldly;
 using Xunit;
 
@@ -8,10 +10,12 @@ namespace ContosoStore.Customers;
 public class CustomerAppService_Tests : ContosoStoreApplicationTestBase
 {
     private readonly ICustomerAppService _customerAppService;
+    private readonly IMerchantAppService _merchantAppService;
 
     public CustomerAppService_Tests()
     {
         _customerAppService = GetRequiredService<ICustomerAppService>();
+        _merchantAppService = GetRequiredService<IMerchantAppService>();
     }
 
     [Fact]
@@ -38,9 +42,13 @@ public class CustomerAppService_Tests : ContosoStoreApplicationTestBase
     [Fact]
     public async Task Should_Create_A_New_Customer()
     {
+        var merchants = await _merchantAppService.GetListAsync(new GetMerchantListDto());
+        var firstMerchnant = merchants.Items[0];
+
         var customer = await _customerAppService.CreateAsync(
             new CreateCustomerDto
             {
+                MerchantId = firstMerchnant.Id,
                 Name = "Lovemore Gombera",
                 Email = "lovemoregomera@gmail.com", 
             }

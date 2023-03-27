@@ -1,4 +1,5 @@
 ﻿using ContosoStore.Customers;
+using ContosoStore.Merchants;
 using ContosoStore.Payments;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Emit;
@@ -27,6 +28,7 @@ public class ContosoStoreDbContext : AbpDbContext<ContosoStoreDbContext>, IIdent
     /* Add DbSet properties for your Aggregate Roots / Entities here. */
     public DbSet<Payment> Payments { get; set; }
     public DbSet<Customer> Customers { get; set; }
+    public DbSet<Merchant> Merchants { get; set; }
 
     #region Entities from the modules
 
@@ -91,18 +93,21 @@ public class ContosoStoreDbContext : AbpDbContext<ContosoStoreDbContext>, IIdent
         {
             b.ToTable(ContosoStoreConsts.DbTablePrefix + "Customers", ContosoStoreConsts.DbSchema);
             b.ConfigureByConvention();
+            b.Property(x => x.Email).IsRequired().HasMaxLength(CustomerConsts.MaxEmailLength);
             b.Property(x => x.Name).IsRequired().HasMaxLength(CustomerConsts.MaxNameLength);
             b.HasIndex(x => x.Name);
+
+            // ADD THE MAPPING FOR THE RELATION
+            b.HasOne<Merchant>().WithMany().HasForeignKey(x => x.MerchantId).IsRequired();
         });
 
-        //builder.Entity<Address>(b =>
-        //{
-        //    b.ToTable(ContosoStoreConsts.DbTablePrefix + "Addresses", ContosoStoreConsts.DbSchema);
-        //    b.ConfigureByConvention();
-        //    b.Property(x => x.City).IsRequired().HasMaxLength(64);
-        //    b.Property(x => x.State).IsRequired().HasMaxLength(64);
-        //    b.Property(x => x.PostalCode).IsRequired().HasMaxLength(10);
-        //    b.HasKey(x => x.Id);
-        //});
+        builder.Entity<Merchant>(b =>
+        {
+            b.ToTable(ContosoStoreConsts.DbTablePrefix + "Merchants", ContosoStoreConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.Email).IsRequired().HasMaxLength(MerchantConsts.MaxBusinessEmailLength);
+            b.Property(x => x.BusinessName).IsRequired().HasMaxLength(MerchantConsts.MaxBusinessNameLength);
+            b.HasIndex(x => x.BusinessName);
+        });
     }
 }

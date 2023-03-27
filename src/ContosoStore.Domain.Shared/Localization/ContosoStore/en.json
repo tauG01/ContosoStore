@@ -12,17 +12,19 @@
     "Edit": "Edit",
     "PaymentDate": "Payment date",
     "NewPayment": "New payment",
+    "ACustomerIsRequiredForCreatingPayment": "A customer is required to create a payment",
     "Reference": "Reference",
     "Naration": "Naration",
     "CreationTime": "Creation time",
     "AreYouSure": "Are you sure?",
     "AreYouSureToDelete": "Are you sure you want to delete this item?",
     "ContosoStore:00001": "There is already a customer with the same email: {email}",
-    //"Menu:Customers": "Customers",
-    //"Customers": "Customers",
-    //"CustomersDeletionConfirmationMessage": "Are you sure to delete the customer '{0}'?",
-    //"Email": "Email",
-    //"NewCustomer": "New customer"
-
+    "ContosoStore:00002": "There is already a merchant with the same email: {email}",
+    "Menu:Customers": "Customers",
+    "Customers": "Customers",
+    "AMerchantIsRequiredForCreatingCustomer": "A Merchant is required to create a customer",
+    "CustomersDeletionConfirmationMessage": "Are you sure to delete the customer '{0}'?",
+    "Email": "Email",
+    "NewCustomer": "New customer"
   }
 }

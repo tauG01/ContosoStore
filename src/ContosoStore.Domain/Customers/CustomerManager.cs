@@ -16,6 +16,7 @@ public class CustomerManager : DomainService
     }
 
     public async Task<Customer> CreateAsync(
+        Guid merchantId,
         [NotNull] string name,
         [NotNull] string email)
     {
@@ -29,6 +30,7 @@ public class CustomerManager : DomainService
 
         return new Customer(
             GuidGenerator.Create(),
+            merchantId,
             name,
             email
         );

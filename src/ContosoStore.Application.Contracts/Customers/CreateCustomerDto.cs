@@ -5,6 +5,7 @@ namespace ContosoStore.Customers;
 
 public class CreateCustomerDto
 {
+    public Guid MerchantId { get; set; }
     public string Name { get; set; }
 
     [Required]

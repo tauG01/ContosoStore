@@ -31,8 +31,7 @@ public class PaymentAppService_Tests : ContosoStoreApplicationTestBase
 
         //Assert
         result.TotalCount.ShouldBeGreaterThan(0);
-        result.Items.ShouldContain(b => b.Reference == "20032023800" &&
-                                    b.CustomerName == "Taurai Gombera");
+        result.Items.ShouldContain(b => b.Reference == "20032023800" && b.CustomerName == "Taurai Gombera");
 
     }
 

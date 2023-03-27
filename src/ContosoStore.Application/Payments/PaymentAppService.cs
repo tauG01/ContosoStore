@@ -6,8 +6,6 @@ using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 using ContosoStore.Customers;
 using ContosoStore.Payments;
-using ContosoStore.Permissions;
-using Microsoft.AspNetCore.Authorization;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 using Volo.Abp.Domain.Entities;
@@ -20,17 +18,14 @@ public class PaymentAppService :
     CrudAppService<
         Payment, //The Payment entity
         PaymentDto, //Used to show payments
-        Guid, //Primary key of the book entity
+        Guid, //Primary key of the payment entity
         PagedAndSortedResultRequestDto, //Used for paging/sorting
-        CreateUpdatePaymentDto>, //Used to create/update a book
+        CreateUpdatePaymentDto>, //Used to create/update a payments
     IPaymentAppService //implement the IPaymentAppService
 {
     private readonly ICustomerRepository _customerRepository;
 
-    public PaymentAppService(
-        IRepository<Payment, Guid> repository,
-        ICustomerRepository customerRepository)
-        : base(repository)
+    public PaymentAppService(IRepository<Payment, Guid> repository, ICustomerRepository customerRepository) : base(repository)
     {
         _customerRepository = customerRepository;
     }

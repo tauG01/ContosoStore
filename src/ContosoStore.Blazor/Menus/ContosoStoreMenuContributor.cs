@@ -63,17 +63,12 @@ public class ContosoStoreMenuContributor : IMenuContributor
         administration.SetSubItemOrder(IdentityMenuNames.GroupName, 2);
         administration.SetSubItemOrder(SettingManagementMenus.GroupName, 3);
 
-            context.Menu.AddItem(
+        context.Menu.AddItem(
             new ApplicationMenuItem(
-                "ContososStore",
-                l["Menu:ContosoStore"],
-                icon: "fa fa-money"
-            ).AddItem(
-                new ApplicationMenuItem(
-                    "ContososStore.Payments",
-                    l["Menu:Payments"],
-                    url: "/payments"
-                )
+                "ContososStore.Payments",
+                l["Menu:Payments"],
+                url: "/payments",
+                  icon: "fa fa-money"
             )
         );
 
@@ -81,14 +76,10 @@ public class ContosoStoreMenuContributor : IMenuContributor
           new ApplicationMenuItem(
               "ContososStore.Customers",
               l["Menu:Customers"],
-              url: "/authors",
-              icon: "fa fa-money"
+              url: "/customers",
+              icon: "fa fa-users"
          )
       );
-
-
-
-        
 
 
         return Task.CompletedTask;

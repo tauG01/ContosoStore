@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using AutoMapper.Internal.Mappers;
 using ContosoStore.Customers;
+using ContosoStore.Merchants;
 using ContosoStore.Payments;
 
 namespace ContosoStore;
@@ -16,6 +16,9 @@ public class ContosoStoreApplicationAutoMapperProfile : Profile
         CreateMap<CreateUpdatePaymentDto, Payment>();
         CreateMap<Customer, CustomerDto>();
         CreateMap<Customer, CustomerLookupDto>();
+        CreateMap<Merchant, MerchantDto>();
+        CreateMap<Merchant, MerchantLookupDto>();
+
 
     }
 }

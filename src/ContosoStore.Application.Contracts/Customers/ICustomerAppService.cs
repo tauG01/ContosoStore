@@ -16,4 +16,6 @@ public interface ICustomerAppService : IApplicationService
     Task UpdateAsync(Guid id, UpdateCustomerDto input);
 
     Task DeleteAsync(Guid id);
+
+    Task<ListResultDto<MerchantLookupDto>> GetMerchantLookupAsync();
 }
