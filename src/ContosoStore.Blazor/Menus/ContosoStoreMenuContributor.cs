@@ -81,6 +81,15 @@ public class ContosoStoreMenuContributor : IMenuContributor
          )
       );
 
+        context.Menu.AddItem(
+          new ApplicationMenuItem(
+              "ContososStore.Merchants",
+              l["Menu:Merchants"],
+              url: "/merchants",
+              icon: "fa fa-business-time"
+         )
+      );
+
 
         return Task.CompletedTask;
     }

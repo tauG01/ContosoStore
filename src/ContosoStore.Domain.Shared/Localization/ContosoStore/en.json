@@ -25,6 +25,10 @@
     "AMerchantIsRequiredForCreatingCustomer": "A Merchant is required to create a customer",
     "CustomersDeletionConfirmationMessage": "Are you sure to delete the customer '{0}'?",
     "Email": "Email",
-    "NewCustomer": "New customer"
+    "NewCustomer": "New customer",
+    "Menu:Merchants": "Merchants",
+    "Merchants": "Merchants",
+    "MerchantDeletionConfirmationMessage": "Are you sure to delete the merchant '{0}'?",
+    "NewMerchant": "New merchant"
   }
 }
