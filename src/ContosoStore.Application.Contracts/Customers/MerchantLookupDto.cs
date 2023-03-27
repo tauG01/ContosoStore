@@ -5,5 +5,5 @@ namespace ContosoStore.Customers;
 
 public class MerchantLookupDto : EntityDto<Guid>
 {
-    public string Name { get; set; }
+    public string BusinessName { get; set; }
 }

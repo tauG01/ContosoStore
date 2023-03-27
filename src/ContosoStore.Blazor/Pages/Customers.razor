@@ -120,23 +120,11 @@
                             @foreach (var merchant in merchantList)
                             {
                                 <SelectItem TValue="Guid" Value="@merchant.Id">
-                                    @merchant.Name
+                                    @merchant.BusinessName
                                 </SelectItem>
                             }
                         </Select>
                     </Blazorise.Field>
-
-                  @*  <Field>
-                        <FieldLabel>@L["Merchant"]</FieldLabel>
-                        <Select TValue="Guid" @bind-SelectedValue="@NewCustomer.MerchantId">
-                            @foreach (var merchant in await MerchantAppService.GetListAsync())
-                            {
-                                <SelectItem TValue="Guid" Value="@merchant.Id">
-                                    @merchant.Name
-                                </SelectItem>
-                            }
-                        </Select>
-                    </Field>*@
 
                 </Validations>
             </ModalBody>
@@ -205,32 +193,15 @@
     </ModalContent>
 </Modal>
 
-@code
-{
-    //ADDED A NEW FIELD
-    IReadOnlyList<MerchantLookupDto> merchantList = Array.Empty<MerchantLookupDto>();
+@code {
+    private IReadOnlyList<MerchantDto> merchantList = Array.Empty<MerchantDto>();
 
-
-    //public Customers() // Constructor
-    //{
-
-    //}
-
-    ////GET MERCHANTS ON INITIALIZATION
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    await base.OnInitializedAsync();
-    //    merchantList = (await AppService.GetMerchantLookupAsync()).Items;
-    //}
-
-    //protected override async Task OpenCreateModalAsync()
-    //{
-    //    if (!merchantList.Any())
-    //    {
-    //        throw new UserFriendlyException(message: L["AMerchantIsRequiredForCreatingCustomer"]);
-    //    }
-
-    //    await base.OpenCreateModalAsync();
-    //    NewEntity.MerchantId = merchantList.First().Id;
-    //}
+    protected override async Task OnInitializedAsync()
+    {
+        var result = await MerchantAppService.GetListAsync(new GetMerchantListDto());
+        merchantList = result.Items.ToList();
+    }
 }
+
+
+

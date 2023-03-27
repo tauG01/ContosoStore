@@ -23,11 +23,6 @@ public class CustomerAppService : ContosoStoreAppService, ICustomerAppService
     }
 
     //...SERVICE METHODS WILL COME HERE...
-    //public async Task<CustomerDto> GetAsync(Guid id)
-    //{
-    //    var customer = await _customerRepository.GetAsync(id);
-    //    return ObjectMapper.Map<Customer, CustomerDto>(customer);
-    //}
 
     public async Task<CustomerDto> GetAsync(Guid id)
     {
@@ -75,39 +70,6 @@ public class CustomerAppService : ContosoStoreAppService, ICustomerAppService
             customerDtos
         );
     }
-    //public async Task<PagedResultDto<CustomerDto>> GetListAsync(GetCustomerListDto input)
-    //{
-    //    if (input.Sorting.IsNullOrWhiteSpace())
-    //    {
-    //        input.Sorting = nameof(Customer.Name);
-    //    }
-
-    //    var queryable = await _customerRepository.GetQueryableAsync();
-
-    //    var query = from customer in queryable
-    //                join merchant in await _merchantRepository.GetQueryableAsync() on customer.MerchantId equals merchant.Id
-    //                select new { customer, merchant };
-
-    //    query = query.OrderBy(x => x.customer.Name, StringComparer.OrdinalIgnoreCase);
-
-    //    var queryResult = await AsyncExecuter.ToListAsync(query);
-
-    //    var customerDtos = queryResult.Select(x =>
-    //    {
-    //        var customerDto = ObjectMapper.Map<Customer, CustomerDto>(x.customer);
-    //        customerDto.MerchantName = x.merchant.BusinessName;
-    //        return customerDto;
-    //    }).ToList();
-
-    //    var totalCount = await _customerRepository.GetCountAsync();
-
-    //    return new PagedResultDto<CustomerDto>(
-    //        totalCount,
-    //        customerDtos
-    //    );
-    //}
-
-
     public async Task<CustomerDto> CreateAsync(CreateCustomerDto input)
     {
        

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ContosoStore.Customers;
+using ContosoStore.Merchants;
 using AutoMapper.Internal.Mappers;
 using Blazorise;
 using Blazorise.DataGrid;
@@ -14,7 +15,7 @@ namespace ContosoStore.Blazor.Pages;
 public partial class Customers
 {
     private IReadOnlyList<CustomerDto> CustomerList { get; set; }
-
+    private IReadOnlyList<MerchantDto> MerchantList { get; set; }
     private int PageSize { get; } = LimitedResultRequestDto.DefaultMaxResultCount;
     private int CurrentPage { get; set; }
     private string CurrentSorting { get; set; }
@@ -38,11 +39,10 @@ public partial class Customers
         EditingCustomer = new UpdateCustomerDto();
     }
 
-    protected override async Task OnInitializedAsync()
-    {
-        await GetCustomersAsync();
-    }
-
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await GetCustomersAsync();
+    //}
 
     private async Task GetCustomersAsync()
     {
